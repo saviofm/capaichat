@@ -50,7 +50,7 @@
 					active="false"/>
 				<m:ObjectAttribute
                     id="uploadSetItemAttribute3" 
-					title="{i18n>fileSize}File Size"
+					title="{i18n>fileSize}"
 					text="{files>size}"
 					active="false"/>
             </UploadSetItem>

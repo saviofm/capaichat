@@ -42,7 +42,7 @@ const genericRequestPrompt =
 ;
 
 const taskCategory = {
-    "equipmento" : equipRequestPrompt,
+    "equipamento" : equipRequestPrompt,
     "generica" : genericRequestPrompt
 }
 
@@ -87,10 +87,10 @@ module.exports = function () {
 
             const determinationResponse = await vectorplugin.getChatCompletion(payload)
             const determinationJson = JSON.parse(determinationResponse.content);
-            const category = determinationJson?.category ;
+            const categoria = determinationJson?.categoria ;
 
-            if (! taskCategory.hasOwnProperty(category)) {
-                throw new Error(`${category} is not in the supported`);
+            if (! taskCategory.hasOwnProperty(categoria)) {
+                throw new Error(`${categoria} is not in the supported`);
               }
             
             
@@ -107,9 +107,9 @@ module.exports = function () {
             - Call chat completion model to retrieve relevant answer to the user query
             */
 
-            const promptCategory  = {
-                "leave-request-query" : equipRequestPrompt,
-                "generic-query" : genericRequestPrompt
+            const promptCategoria  = {
+                "equipamento" : equipRequestPrompt,
+                "generica" : genericRequestPrompt
             }
 
             const chatRagResponse = await vectorplugin.getRagResponse(
@@ -117,7 +117,7 @@ module.exports = function () {
                 tableName,
                 embeddingColumn,
                 contentColumn,
-                promptCategory[category] ,
+                promptCategoria[categoria] ,
                 memoryContext .length > 0 ? memoryContext : undefined,
                 30
             );
