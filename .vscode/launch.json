@@ -1,0 +1,14 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "command": "cds watch --profile dev",
+        "name": "cds watch dev",
+        "request": "launch",
+        "type": "node-terminal",
+        "skipFiles": [
+          "<node_internals>/**"
+        ]
+      }
+    ]
+  }
