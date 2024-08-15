@@ -124,7 +124,7 @@ async function getConversationSummarization(userQuestion){
             },
             {
                 role: "assistant",
-                content: "Generate short summarization on the user input, no matter whether the user input is a question or not. The short summarization should be able to be used the conversation title."
+                content: "Gere um breve resumo sobre a entrada do usuário, não importando se a entrada do usuário é uma pergunta ou não. O breve resumo deve poder ser usado como título da conversa."
             }
           ],
           temperature: 0.0,
