@@ -9,7 +9,7 @@ const embeddingColumn  = 'EMBEDDING';
 const contentColumn = 'TEXT_CHUNK';
 
 const systemPrompt = 
-`Sua tarefa é classificar a pergunta do usuário em uma das duas categorias: equipamento ou generica\n
+`Sua tarefa é classificar a pergunta do usuário em uma das duas categorias: equipamento ou pergunta-generica\n
 
  Se o usuário quiser obter informações de equipamento, seja manual, roteiro de manutenção ou suporte, retorne a resposta como json com o seguinte formato:
  {
@@ -18,20 +18,53 @@ const systemPrompt =
 
 Para todas as outras consultas, retorne a resposta como json da seguinte forma
  {
-    "categoria" : "generica"
+    "categoria" : "pergunta-generica"
  } 
 
 Regra:
 
-1. Se o usuário não fornecer nenhuma informação do equipamento, considere-a como uma categoria genérica.`;
+1. Se o usuário não fornecer nenhuma informação do equipamento, considere-a como uma categoria genérica.
+EXEMPLO:
+
+EXEMPLO1: 
+
+entrada do usuário: Qual a caracteristica do regulador de tensão ABC?
+resposta:  {
+    "categoria" : "equipamento"
+  
+} 
+
+
+EXEMPLO2: 
+
+entrada do usuáriot: Qual as sessões do evento XYZ ?
+resposta:  {
+    "categoria" : "pergunta-generica"
+ } 
+
+
+EXEMPLO3: 
+
+entrada do usuáriot: Qual o plano de manutenção da aeronave ERX_XDF?
+resposta:  {
+    "categoria" : "equipamento"
+ } 
+
+EXEMPLO4: 
+
+entrada do usuáriot: Qual a política para sair de férias?
+resposta:  {
+    "categoria" : "pergunta-generica"
+ } 
+`;
 
 const equipRequestPrompt = 
 `Você é um chatbot. Responda à pergunta do usuário com base nas seguintes informações
-1. Manutenção de equipamentos, delimitada por três acentos graves. \n
+1. Responder sobre caracteristica  ou manutenção de equipamentos, delimitada por acentos graves triplos. \n
 2. Se houver alguma diretriz específica referente ao roteiro de manutenção ou manual de equipamento a mesma deve ser descrita.\n
 
 Regras: \n
-1. Faça perguntas de acompanhamento se precisar de informações adicionais do usuário para responder à pergunta.\n
+1. Faça perguntas suplementares se precisar de informações adicionais do usuário para responder à pergunta.\n
 2. Caso não possa dar uma resposta precisa, responda que é necessário carregar os manuais especifico do equipamento no sistema \n
 3. Seja mais formal em sua resposta. \n
 4. Mantenha as respostas concisas.`
@@ -43,7 +76,7 @@ const genericRequestPrompt =
 
 const taskCategory = {
     "equipamento" : equipRequestPrompt,
-    "generica" : genericRequestPrompt
+    "pergunta-generica" : genericRequestPrompt
 }
 
 function getFormattedDate (timeStamp)
@@ -109,7 +142,7 @@ module.exports = function () {
 
             const promptCategoria  = {
                 "equipamento" : equipRequestPrompt,
-                "generica" : genericRequestPrompt
+                "pergunta-generica" : genericRequestPrompt
             }
 
             const chatRagResponse = await vectorplugin.getRagResponse(

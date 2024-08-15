@@ -188,19 +188,47 @@ resources:
           instance:
             destinations:
               - Authentication: NoAuthentication
-                HTML5.DynamicDestination: true
-                HTML5.ForwardAuthToken: true
-                HTML5.Timeout: 30000
-                Name: capaichat-srv
-                ProxyType: Internet
-                Type: HTTP
-                URL: ~{srv-api/srv-url}
-              - Authentication: NoAuthentication
                 Name: ui5
                 ProxyType: Internet
                 Type: HTTP
                 URL: https://ui5.sap.com
+              - Authentication: NoAuthentication
+                HTML5.DynamicDestination: true
+                HTML5.ForwardAuthToken: true
+                HTML5.Timeout: 30000
+                Name: capaichat-srv-api
+                ProxyType: Internet
+                Type: HTTP
+                URL: ~{srv-api/srv-url}
             existing_destinations_policy: update
+          subaccount:
+          destinations:
+          - Authentication: NoAuthentication
+            Description: CAP AI Chat Destination
+            HTML5.DynamicDestination: true
+            HTML5.ForwardAuthToken: true
+            HTML5.Timeout: 300000
+            Name: capaichat
+            ProxyType: Internet
+            Type: HTTP
+            URL: ~{srv-api/srv-url}
+          - AppgyverEnabled: true
+            Authentication: NoAuthentication
+            Description: CAP AI Chat Odata Chat
+            HTML5.DynamicDestination: true
+            HTML5.ForwardAuthToken: true
+            HTML5.Timeout: 300000
+            Name: capaichat_odata
+            ProxyType: Internet
+            Type: HTTP
+            URL: ~{srv-api/srv-url}/odata/v4/chat
+            WebIDEEnabled: true
+            WebIDEUsage: odata_gen
+            sap.applicationdevelopment.actions.enabled: true
+            sap.build.usage: CAP
+            sap.processautomation.enabled: true
+            MobileEnabled: true
+          existing_destinations_policy: update  
         version: 1.0.0
       service: destination
       service-name: capaichat-destination-service

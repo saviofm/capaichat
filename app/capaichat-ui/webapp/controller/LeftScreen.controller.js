@@ -300,11 +300,11 @@ sap.ui.define([
             this.requestEmbeddingGeneration(pdfFileID)
                 .then((oReturn) => {
                     this.byId("fileManagementFragment").setBusy(false);
-                    MessageToast.show("Embeddings generation completed successfully.");
+                    MessageToast.show("Vetorização realizada com sucesso.");
                 })
                 .catch((error) => {
                     this.byId("fileManagementFragment").setBusy(false);
-                    MessageToast.show("Embeddings generation failed, please try again.");
+                    MessageToast.show("Erro na geração de Vetorização, tente denovo");
                 });
         },
 

@@ -175,6 +175,6 @@
     },
     "sap.cloud": {
         "public": true,
-        "service": "aichat.app"
+        "service": "capaichat"
     }
 }
