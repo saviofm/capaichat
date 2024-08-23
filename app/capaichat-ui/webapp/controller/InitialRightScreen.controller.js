@@ -31,16 +31,18 @@ sap.ui.define([
         },
 
         getUserInfo: function(){
-            
-            const url = this.getBaseURL() + "/user-api/currentUser";
-            var oModel = new JSONModel();
             var mock = {
                 firstname: "Dummy",
                 lastname: "User",
-                email: "dummy.user@com",
-                name: "dummy.user@com",
-                displayName: "Dummy User (dummy.user@com)"
+                email: "dummy@com",
+                name: "dummy@com",
+                displayName: "Dummy User (dummy@com)"
             }; 
+            var oModel = new JSONModel();
+                       
+            const url = this.getBaseURL() + "/user-api/currentUser";
+            
+  
             oModel.loadData(url);
             oModel.dataLoaded()
             .then(()=>{
@@ -52,7 +54,8 @@ sap.ui.define([
                 }
                 this.getView().setModel(oModel, "userInfo");
             })
-            .catch(()=>{               
+            .catch(()=>{    
+                      
                 oModel.setData(mock);
                 this.getView().setModel(oModel, "userInfo");
             });

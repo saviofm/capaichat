@@ -4,7 +4,7 @@ const { handleMemoryBeforeRagCall, handleMemoryAfterRagCall } = require('./memor
 
 //userId = cds.env.requires["SUCCESS_FACTORS_CREDENTIALS"]["USER_ID"]
 
-const tableName = 'SAP_TISCE_DEMO_DOCUMENTCHUNK'; 
+const tableName = 'capaichat_DOCUMENTCHUNK'; 
 const embeddingColumn  = 'EMBEDDING'; 
 const contentColumn = 'TEXT_CHUNK';
 

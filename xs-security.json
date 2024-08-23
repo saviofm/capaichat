@@ -2,7 +2,12 @@
   "xsappname": "capaichat",
   "tenant-mode": "dedicated",
   "description": "Security profile of called application",
-  "scopes": [],
+  "scopes": [
+    {
+      "name": "uaa.user",
+      "description": "UAA"
+    }
+  ],
   "attributes": [],
   "role-templates": [
     {

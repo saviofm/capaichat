@@ -5,6 +5,7 @@ const { RecursiveCharacterTextSplitter } = require("langchain/text_splitter");
 const fs = require('fs');
 const { PDFDocument } = require('pdf-lib');
 const { PDFLoader } = require('langchain/document_loaders/fs/pdf');
+const { file } = require('pdfkit');
 
 
 // Helper method to convert embeddings to buffer for insertion
@@ -98,8 +99,8 @@ module.exports = function () {
 
       console.log('Temporary PDF File restored and saved to:', tempDocLocation);
 
-      // Delete existing embeddings 
-      await DELETE.from(DocumentChunk);
+      // Delete existing embeddings //INCLUIDO SÁVIO - WHERE CLAUSE
+      await DELETE.from(DocumentChunk).where({file_ID: uuid });
 
       // Load the document to langchain text loader
       loader = new PDFLoader(tempDocLocation);
@@ -121,6 +122,7 @@ module.exports = function () {
       for (const chunk of textChunks) {
         const embedding = await vectorplugin.getEmbedding(chunk.pageContent);
         const entry = {
+          "file_ID": uuid, //INCLUIDO SÁVIO - FILTRAR POR USUÁRIO
           "text_chunk": chunk.pageContent,
           "metadata_column": fileName,
           "embedding": array2VectorBuffer(embedding)
@@ -132,36 +134,58 @@ module.exports = function () {
       // Insert the text chunk with embeddings into db
       const insertStatus = await INSERT.into(DocumentChunk).entries(textChunkEntries);
       if (!insertStatus) {
-        throw new Error("Insertion of text chunks into db failed!");
+        throw new Error("Erro na inserção de fragmentos de textos no banco!");
       }
 
+      // Update file vectorized status
+      const FileUpdated = await UPDATE.entity(Files).where({ ID: uuid }).set({embedded: true});
       // Delete temp document
       deleteIfExists(tempDocLocation);
 
     }
     catch (error) {
       // Handle any errors that occur during the execution
-      console.log('Error while generating and storing vector embeddings:', error);
+      console.log('Erro ao gerar e armazenar vetores:', error);
       throw error;
     }
-    return "Embeddings stored successfully!";
+    return "Embeddings armazenados com  sucesso!";
 
   })
 
 
-  this.on('deleteEmbeddings', async () => {
+  this.on('deleteEmbeddings', async (req) => {
     try {
       // Delete any previous records in the table
-      const { DocumentChunk } = this.entities;
-      await DELETE.from(DocumentChunk);
-      return "Success!"
+      const { DocumentChunk, Files } = this.entities;
+      const deletestatus =  
+        await DELETE.from(DocumentChunk).where({ file_ID: 
+            SELECT('ID').from(Files).where(
+              {
+                createdBy: req.user.id
+              }
+            )                   
+          })
+        await UPDATE.entity(Files).where({createdBy: req.user.id}).set({embedded: false})   
+      return "Sucesso!"
     }
     catch (error) {
       // Handle any errors that occur during the execution
-      console.log('Error while deleting the embeddings content in db:', error);
+      console.log('Erro ao deletar embeddings:', error);
       throw error;
     }
   })
-
+//INCLUIDO SÁVIO - ELIMINAR RESPECTIVO EMBEDDING DO ARQUIVO
+  //----------------------------------------------------------------------------------//
+  //----------------------------------------------------------------------------------//
+  //----------------------------------------------------------------------------------//
+  // FILE - DELETE - Verifica conteúdo                                            //
+  //----------------------------------------------------------------------------------//
+  //----------------------------------------------------------------------------------//
+  //----------------------------------------------------------------------------------//
+  this.after('DELETE', ['Files'], async (results, req) => {
+    const {DocumentChunk } = this.entities;
+    // Delete existing embeddings 
+    const deletestatus = await DELETE.from(DocumentChunk).where({file_ID: req.data.ID });
+  });
 
 }

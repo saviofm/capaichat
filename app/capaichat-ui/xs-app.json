@@ -5,7 +5,7 @@
     {
       "source": "^/odata/v4/chat/(.*)$",
       "target": "/odata/v4/chat/$1",
-      "destination": "capaichat-srv",
+      "destination": "capaichat",
       "authenticationType": "xsuaa",
       "csrfProtection": false,
       "cacheControl": "no-cache, no-store, must-revalidate"
@@ -13,7 +13,7 @@
     {
       "source": "^/odata/v4/embedding-storage/(.*)$",
       "target": "/odata/v4/embedding-storage/$1",
-      "destination": "capaichat-srv",
+      "destination": "capaichat",
       "authenticationType": "xsuaa",
       "csrfProtection": false,
       "cacheControl": "no-cache, no-store, must-revalidate"
@@ -29,12 +29,7 @@
       "authenticationType": "none",
       "destination": "ui5"
     },
-    {
-      "source": "^/test-resources/(.*)$",
-      "target": "/test-resources/$1",
-      "authenticationType": "none",
-      "destination": "ui5"
-    },
+
     {
       "source": "^(.*)$",
       "target": "$1",

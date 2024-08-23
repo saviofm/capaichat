@@ -40,7 +40,7 @@
     },
     "cds": {
         "requires": {
-            "[dev]": {
+            "[hybrid]": {
                 "db": "hana",
                 "cap-llm-plugin": {
                     "impl": "cap-llm-plugin/srv/cap-llm-plugin.js"
@@ -53,13 +53,6 @@
                         "requestTimeout": 30000
                     }
                 },
-                "destination_sf": {
-                    "kind": "rest",
-                    "credentials": {
-                        "url": "<your-successfactors-base-url>",
-                        "requestTimeout": 30000
-                    }
-                },
                 "auth": {
                     "passport": {
                         "strategy": "mock",
@@ -68,8 +61,8 @@
                                 "ID": "JohnDole@tester.sap.com",
                                 "password": "initial"
                             },
-                            "dummy": {
-                                "ID": "dummy",
+                            "dummy@com": {
+                                "ID": "dummy@com",
                                  "password": "dummy"
                             }
                         }
@@ -92,6 +85,9 @@
                 }
             }
         },
+        "workspaces": [
+            "app/*"
+        ],
         "sapux": [
             "app/capaichat-ui"
         ]

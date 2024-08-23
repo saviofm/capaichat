@@ -1,13 +1,19 @@
-# CAP capaichat
+/.DS_Store
+/.cdsrc-private.json
+/.cdsrc.json
+/.eslintrc
+/.vscode
+
+# CAP capdoxnfse
 _out
 *.db
 *.sqlite
 connection.properties
 default-*.json
-.cdsrc-private.json
 gen/
 node_modules/
 target/
+resources/
 
 # Web IDE, App Studio
 .che/
@@ -32,3 +38,12 @@ mta_archives/
 
 # @cap-js/cds-typer
 @cds-models
+
+# added by cds
+.cdsrc-private.json
+
+app/*/dist/
+
+app/node_modules/*
+
+app/*/node_modules/*
